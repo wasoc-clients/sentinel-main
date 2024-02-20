@@ -1,0 +1,13 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "customizations": {
+        "codespaces": {
+            "repositories": {
+                "wasoc-clients/*": {
+                    "permissions": "write-all"
+                }
+            }
+        }
+    },
+    "onCreateCommand": "bash -i scripts/install.sh"
+}
