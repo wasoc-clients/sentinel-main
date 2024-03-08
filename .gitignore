@@ -1,2 +1,3 @@
 external-content
 target-repos
+*.pyc

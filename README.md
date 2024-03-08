@@ -1,6 +1,10 @@
 # sentinel-baseline
 Sentinel CI/CD main repo
 
+## Using this codespace
+
+On creation / prebuild the devcontainer should have `./scripts/install.sh` run to pull in various content sources. As an analyst updating content for agencies, the `./scripts/update_repos.py` script can be used to transform and deploy content across all repositories this codespace has permissions to.
+
 ## Backlog
 
 - [ ] Document how to use codespace
