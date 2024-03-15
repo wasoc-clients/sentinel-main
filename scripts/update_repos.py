@@ -28,9 +28,22 @@ def load_sentinel_content():
     solutions_path = Path("external-content/Azure-Sentinel/Solutions")
     for key, items in solutions.items():
         package_zip = list((solutions_path / key / "Package").glob("*.zip"))[-1] # grab latest zip from package folder
-        zip = zipfile.ZipFile(package_zip)
-        print(zip.namelist())
+        arm_template = json.load(zipfile.ZipFile(package_zip).open("mainTemplate.json"))
+        new_item = arm_template.copy()
+        for resource_name in items:
+            for resource in arm_template["resources"]:
+                if "description" in resource["properties"] and resource["properties"]["description"].startswith(resource_name):
+                    new_item["resources"] = resource["properties"]["mainTemplate"]["resources"]
+                    for sub_resource in new_item["resources"]: # may need to remove metadata resource thing if causes issues deploying
+                        if sub_resource["type"].endswith("AlertRuleTemplates"):
+                            sub_resource["type"] = sub_resource["type"].replace("AlertRuleTemplates", "AlertRule")
+                            sub_resource["location"] = "[resourceGroup().location]"
+                    new_item["parameters"] = { "workspace": { "type": "String" } }
+        return new_item
+        # print(zip.namelist())
         # TODO: find items in the arm resource template, and see how hard they are to make 'deployable' rules that sentinel ci/cd will push for us.
+        # Error to debug on deploying: {"code":"InvalidTemplate","message":"Deployment template validation failed: 'The template resource '32c08696-2e37-4730-86f8-97d9c8b184c9' for type 'Microsoft.OperationalInsights/workspaces/providers/alertRules' at line '197' and column '81' has incorrect segment lengths. A nested resource type must have identical number of segments as its resource name. A root resource type must have segment length one greater than its resource name. Please see https://aka.ms/arm-syntax-resources for usage details.'."}
+
 
 
 if __name__ == "__main__":
