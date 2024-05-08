@@ -7,8 +7,11 @@ On creation / prebuild the devcontainer should have `./scripts/install.sh` run t
 
 ## Backlog
 
+- [ ] Create some sample content with azure deploy buttons similar to https://github.com/Azure/Azure-Sentinel/tree/master/Playbooks/Change-Incident-Severity
+- [ ] Define tailoring process for grabbing content from client workspace, then adjusting it and making re-deployable through a deploy to azure button (as a precursor to full CI/CD integrated repos)
 - [ ] Document how to use codespace
   - [x] How to make agency repos
+  - [ ] Investigate building analytics rules as ARM json templates from kql queries
   - [ ] How to import / process content - discovery needed to determine is it better to extract/transform templates from packages json or to convert yaml to json with the powershell script in the [sample repo from MS](https://github.com/SentinelCICD/RepositoriesSampleContent/blob/main/Detections/ConvertAnalyticsRuleFromYamlToArm.ps1)
   - [ ] Structure of folders
 - [ ] Establish workflow for standard sentinel solutions
